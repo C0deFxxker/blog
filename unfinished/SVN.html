@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="一、概述支持向量机(Support Vector Machines, SVM)是 Vapnik 等人根据统计学习理论中结构风险最小化原则提出的，SVM能够尽量提高学习机的推广能力，即使由有限数据集得到的判别函数对独立的测试集仍能够得到较小的误差。此外，支持向量机是一个凸二次优化问题，能够保证找到极值解就是全局最优解。这个特点使支持向量机成为一种优秀的基于数据的机器学习算法。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="支持向量机">
+<meta property="og:url" content="http://yoursite.com/unfinished/SVN.html">
+<meta property="og:site_name" content="Where is my code?">
+<meta property="og:description" content="一、概述支持向量机(Support Vector Machines, SVM)是 Vapnik 等人根据统计学习理论中结构风险最小化原则提出的，SVM能够尽量提高学习机的推广能力，即使由有限数据集得到的判别函数对独立的测试集仍能够得到较小的误差。此外，支持向量机是一个凸二次优化问题，能够保证找到极值解就是全局最优解。这个特点使支持向量机成为一种优秀的基于数据的机器学习算法。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/unfinished/1.png">
+<meta property="og:image" content="http://images.cnitblog.com/blog/458371/201212/31223704-0758d0b56ff7413985d4dacd3b0431d5.jpg">
+<meta property="og:updated_time" content="2018-06-17T10:46:26.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="支持向量机">
+<meta name="twitter:description" content="一、概述支持向量机(Support Vector Machines, SVM)是 Vapnik 等人根据统计学习理论中结构风险最小化原则提出的，SVM能够尽量提高学习机的推广能力，即使由有限数据集得到的判别函数对独立的测试集仍能够得到较小的误差。此外，支持向量机是一个凸二次优化问题，能够保证找到极值解就是全局最优解。这个特点使支持向量机成为一种优秀的基于数据的机器学习算法。">
+<meta name="twitter:image" content="http://yoursite.com/unfinished/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/unfinished/SVN.html"/>
+
+
+
+
+
+  <title>支持向量机 | Where is my code?</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/blog/css/prism.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Where is my code?</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline">支持向量机</h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h1 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h1><p>支持向量机(Support Vector Machines, SVM)是 Vapnik 等人根据统计学习理论中结构风险最小化原则提出的，SVM能够尽量提高学习机的推广能力，即使由有限数据集得到的判别函数对独立的测试集仍能够得到较小的误差。此外，支持向量机是一个凸二次优化问题，能够保证找到极值解就是全局最优解。这个特点使支持向量机成为一种优秀的基于数据的机器学习算法。</p>
+<a id="more"></a>
+<h1 id="二、算法思想"><a href="#二、算法思想" class="headerlink" title="二、算法思想"></a>二、算法思想</h1><p>SVM算法的主要思想是：在N维空间中寻找一个最优划分超平面，使得用于分类训练的样本点根据自身类别完全划分在这个分割超平面的两侧，并且要求所有样本点到分割超平面的距离的最小值要最大。</p>
+<p>下面用一个二维空间的图来解释这句话<br><img src="1.png" alt=""></p>
+<p>因为这里是二维空间，分割超平面就是一条直线，我们简称它是<strong>分类线</strong>。$H_1$、$H_2$ 分别为过各类中离分类线最近的数据样本且平行于分类线的直线，$H_1,H_2$之间的间隔我们称为<strong>分类间隔</strong>。我们的目标就是求得这条<strong>最优分类线</strong>的方程，所谓<strong>最优分类线</strong>就是要做到分类错误率为0，且分类间隔最大。</p>
+<h2 id="2-1-最优分类超平面"><a href="#2-1-最优分类超平面" class="headerlink" title="2.1 最优分类超平面"></a>2.1 最优分类超平面</h2><p>在n维空间中，定义一个超平面的一般形式为</p>
+<script type="math/tex; mode=display">
+\omega^T \mathbf{x} + \mathbf{b} = 0</script><p>假设单个训练样本的特征值为 $\mathbf{x}=[x_1, x_2, \cdots, x_n]$ 对应样本点坐标为 $(x_1, x_2, \cdots, x_n)$。我们可以通过以下线性判别函数判别样本点的分类情况：</p>
+<script type="math/tex; mode=display">
+f(\mathbf{x}) = \omega^T \mathbf{x} + \mathbf{b}</script><p>它把 $f(\mathbf{x}) &gt; 0$ 和 $f(\mathbf{x}) &lt; 0$ 的样本点分为了两类，所以我们定义分类标签为 $y$，$y$ 的取值为 -1 或 +1 分别表示不同的两个类别：</p>
+<script type="math/tex; mode=display">
+y = sign(f(\mathbf{x})) = sign(\omega^T \mathbf{x} + \mathbf{b})</script><p>因为y在训练样本中是已知的，因此我们可以用这样的函数表示样本点 $\mathbf{x}$ 到分割超平面的距离值：</p>
+<script type="math/tex; mode=display">
+D(\mathbf{x}) = \frac{|f(\mathbf{x})|}{\|\omega\|} = \frac{y(\omega^T \mathbf{x} + \mathbf{b})}{\|\omega\|}</script><p>我们可以线性变换 $f(x)$ 使得它对于所有的样本点都能满足： $|f(x)| \ge 1$，其中离分类超平面最近的样本点 $\mathbf{x}^\ast$ 满足 $ | f(\mathbf{x}^\ast) |=1 $。我们的距离函数 $D(\mathbf{x})$ 就得到如下不等式关系：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+D(\mathbf{x}) \ge \frac{1}{\|\omega\|}
+\end{aligned}</script><p>只要找到 $\omega^\ast$ 使得 $|\omega^\ast| = \min{|\omega|}$，$\min D(\mathbf{x})$ 就能取得最大值，此时的 $f(\mathbf{x})=0$ 就是我们要找的<strong>最优分割超平面</strong>的一般形式。</p>
+<p>求 $\frac{1}{|\omega|}$ 的最大值，相当于求 $\frac{1}{2}|\omega|^2$ 的最小值(乘上 $\frac{1}{2}$ 是为了后面求导方便)。</p>
+<p>这样我们把整体目标定为：求 </p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+& &\min_{\omega,b} \frac{1}{2} \omega^T\omega \\\\
+&\text{s.t.}    &y_i(\mathbf{\omega} \cdot \mathbf{x}_i + \mathbf{b}) \ge 1
+\end{aligned}</script><p>它是一个只有不等式约束的优化问题，我们构建拉格朗日函数(参考 <a href="http://blog.csdn.net/wangkr111/article/details/21170809" target="_blank" rel="noopener">拉格朗日对偶</a> 以及 <a href="http://www.cnblogs.com/zhangchaoyang/articles/2726873.html" target="_blank" rel="noopener">拉格朗日乘子法和KKT条件</a>)：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\omega, b, \mathbf{a}) &= \frac{1}{2} \omega^T\omega - \sum^n_{i=1} a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 \big), &\text{其中拉格朗日乘子 } a_i \ge 0
+\end{aligned}</script><p>当 $\omega, b, \mathbf{a}$ 满足KKT条件时，拉格朗日对偶问题的解就是原问题的最优解，即 </p>
+<script type="math/tex; mode=display">
+\displaystyle\min_{w,b} \displaystyle\max_{a} L(\omega, b, \mathbf{a}) 
+= \displaystyle\max_{a} \displaystyle\min_{w,b} L(\omega, b, \mathbf{a}) 
+= \min \frac{1}{2} \omega^T\omega</script><p>以下列出KKT条件：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\frac{\partial L(\omega, b, \mathbf{a})}{\partial \omega} = 0\\\\
+\frac{\partial L(\omega, b, \mathbf{a})}{\partial b} = 0\\\\
+a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 \big) = 0\\\\
+y_i(\omega^T \mathbf{x}_i + b) \ge 1\\\\
+a_i \ge 0
+\end{cases}</script><p>因为该式子的最小值出现在各个变量偏求导等于0处：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial L(\omega, b, \mathbf{a})}{\partial \omega} = 0 &\implies \omega = \sum_{i=1}^n a_i y_i \mathbf{x}_i\\\\
+\frac{\partial L(\omega, b, \mathbf{a})}{\partial b} = 0 &\implies \sum_{i=1}^n a_i y_i = 0
+\end{aligned}</script><p>将上述二式代入目标函数：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\omega, b, \mathbf{a}) &= \frac{1}{2} \omega^T\omega - \sum^n_{i=1} a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 \big) \\\\
+&= \sum^{n}_{i=1} a_i y_i
+\end{aligned}</script><script type="math/tex; mode=display">
+\begin{aligned}
+L(\omega, b, \mathbf{a}) &= \frac{1}{2} \omega^T\omega - \sum^n_{i=1} a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 \big)\\\\
+&= \frac{1}{2} \bigg( \sum_{i=1}^n a_i y_i \mathbf{x}_i^T \bigg) \bigg( \sum_{j=1}^n a_j y_j \mathbf{x}_j \bigg) - \sum^n_{i=1} a_i \bigg( y_i(\sum_{j=1}^n a_j y_j \mathbf{x}_j^T) \cdot \mathbf{x}_i + b) - 1 \bigg)\\\\
+&= \frac{1}{2}  \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j - \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j - b \sum_{i=1}^n a_i y_i + \sum_{i=1}^n a_i\\\\
+&= \sum_{i=1}^n a_i - \frac{1}{2}  \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j
+\end{aligned}</script><p>来到这里，这个最优化问题已经跟 $\omega$ 以及 $b$ 无关了，可以把上述问题转化为如下凸二次规划寻优的对偶问题：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+\max \displaystyle\sum_{i=1}^n a_i - \frac{1}{2}  \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j\\\\
+a_i \ge 0\\\\
+\displaystyle\sum_{i=1}^n a_i y_i = 0
+\end{cases}</script><p>若找到一个最优解 $\mathbf{a}^\star$，我们就可以通过如下式子求出 $\omega^\star$:</p>
+<script type="math/tex; mode=display">
+\omega^\star = \sum_{i=1}^n a^\star_i y_i \mathbf{x}_i</script><p>求完 $\omega^\star$ 之后我们来求 $b^\star$。分布在决策边界上的样本集，即为<strong>支持向量</strong>，只有它们会对决策边界产生影响。因此，我们只要利用其中一个支持向量 $\mathbf{x}_i$ 它们必定满足下列等式，从而求得 $b^\star$:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&y_i(\omega^T \mathbf{x}_i + b^\star) = 1, &\text{其中 } \mathbf{x}_i \text{ 为支持向量}
+\end{aligned}</script><p>在拉格朗日对偶问题求解时，若 $y_i(\omega^{T} \mathbf{x}_i + b) &gt; 1$ 时，对偶函数 $\displaystyle\min_{w,b} \displaystyle\max_{a} L(\omega, b, \mathbf{a})$ 会调整系数 $a_i = 0$ 使得结果最大，所以对于 $a_i \ne 0$ 对应的样本就是我们要找的<strong>支持向量</strong>，这些样本满足 $y_i(\omega^T \mathbf{x}_i + b) = 1$。</p>
+<h2 id="2-2-防止过拟合"><a href="#2-2-防止过拟合" class="headerlink" title="2.2 防止过拟合"></a>2.2 防止过拟合</h2><p>有些时候，可能会因为数据有误差或者是为了防止数据过拟合而允许分类器容忍一定程度的误差，我们为原来的约束条件 $|f(\mathbf{x})| \ge 1$ 添加一个松弛变量:</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+|f(\mathbf{x})| &\ge 1 - \xi,     &\text{其中 }0 \le \xi\\\\
+\implies y_i( \omega^T \mathbf{x} + \mathbf{b} ) &\ge 1 - \xi
+\end{aligned}</script><p>添加松弛变量后效果如下图:<br><img src="http://images.cnitblog.com/blog/458371/201212/31223704-0758d0b56ff7413985d4dacd3b0431d5.jpg" alt=""></p>
+<p>从图中我们可以看出，当 $0 \le \xi \lt 1$ 时，分类器依然能正确分类；当 $1 \lt \xi$ 时，分类器得到的分类结果会有错误。</p>
+<p>我们在能容忍分类器存在一定错误的情况下，希望总体误差很小，并且使得分类间隔足够大，我们把目标函数改为求：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&\displaystyle\min_{\omega,b,\xi} \bigg( \frac{1}{2} \omega^T\omega + C \sum^n_{i=1} \xi_i \bigg), &\text{其中 } C > 0 \text{ 且 } \xi_i \ge 0\\\\
+&s.t. \space\space\space\space y( \omega^T \mathbf{x} + \mathbf{b} ) \ge 1 - \xi\\\\
+&\space\space\space\space\space\space\space\space\space\space \xi_i \ge 0
+\end{aligned}</script><p>其中 $C$ 是我们预设的参数，它的大小影响误差值 $x_i$ 所占的权重。当 $C=+\infty$ 只要有一个 $x_i \ne 0$ 则整个目标函数就等于无穷大，这意味着分类器不能容忍有一丝误差（相当于回归到2.1节的目标函数：$\displaystyle\min_{\omega,b} \frac{1}{2} \omega^T\omega$）。</p>
+<p>我们依然使用“拉格朗日乘子法”解决带约束的最优化问题：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\omega, b, \xi, \mathbf{a}, \mathbf{u}) &= \frac{1}{2} \omega^T\omega + C \sum^n_{i=1} \xi_i - \sum^n_{i=1} a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 + \xi_i \big) - \sum_{i=1}^n u_i \xi_i, &\text{其中拉格朗日乘子 } a_i, u_i \ge 0
+\end{aligned}</script><p>因为该式子的最小值出现在各个变量偏求导等于0处：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+\frac{\partial L(\omega, b, \xi, \mathbf{a}, \mathbf{u})}{\partial \omega} = 0 &\implies \omega = \sum_{i=1}^n a_i y_i \mathbf{x}_i\\\\
+\frac{\partial L(\omega, b, \xi, \mathbf{a}, \mathbf{u})}{\partial b} = 0 &\implies \sum_{i=1}^n a_i y_i = 0\\\\
+\frac{\partial L(\omega, b, \xi, \mathbf{a}, \mathbf{u})}{\partial \xi_i} = 0 &\implies C - a_i - u_i = 0
+\end{aligned}</script><p>我们将上面三个式子代入目标函数：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+L(\omega, b, \xi, \mathbf{a}, \mathbf{u}) &= \frac{1}{2} \omega^T\omega + C \sum^n_{i=1} \xi_i - \sum^n_{i=1} a_i \big( y_i(\omega^T \mathbf{x}_i + b) - 1 + \xi_i \big) - \sum_{i=1}^n u_i \xi_i\\\\
+&= \frac{1}{2} \bigg( \sum_{i=1}^n a_i y_i \mathbf{x}_i^T \bigg) \bigg( \sum_{j=1}^n a_j y_j \mathbf{x}_j \bigg) + C \sum^n_{i=1} \xi_i - \sum^n_{i=1} a_i \bigg( y_i(\sum_{j=1}^n a_j y_j \mathbf{x}_j^T) \cdot \mathbf{x}_i + b) - 1 + \xi_i \bigg) - \sum_{i=1}^n (C - a_i) \xi_i\\\\
+&= \frac{1}{2}  \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j - \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j - b \sum_{i=1}^n a_i y_i + \sum_{i=1}^n a_i\\\\
+&= \sum_{i=1}^n a_i - \frac{1}{2}  \sum_{i,j=1}^n a_i a_j y_i y_j \mathbf{x}_i^T \mathbf{x}_j
+\end{aligned}</script><p>其中通过 $C - a_i - u_i = 0$ 推导出约束条件：</p>
+<script type="math/tex; mode=display">
+C \ge a_i \ge 0</script><p>来到这里发现式子跟2.1节的一模一样，它们的区别只在于约束条件：</p>
+<script type="math/tex; mode=display">
+\begin{aligned}
+&C \ge a_i \ge 0, &\sum_{i=1}^n a_i y_i = 0
+\end{aligned}</script><h1 id="尚未完成"><a href="#尚未完成" class="headerlink" title="尚未完成"></a>尚未完成</h1><p>待补充：核函数、SMO算法等Z</p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">黎毅麟</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#一、概述"><span class="nav-text">一、概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二、算法思想"><span class="nav-text">二、算法思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-最优分类超平面"><span class="nav-text">2.1 最优分类超平面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-防止过拟合"><span class="nav-text">2.2 防止过拟合</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#尚未完成"><span class="nav-text">尚未完成</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黎毅麟</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

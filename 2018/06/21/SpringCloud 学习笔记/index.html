@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/blog/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/blog/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/blog/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/blog/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/blog/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/blog/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/blog/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本教程代码：https://github.com/C0deFxxker/springcloud-demo 1. EurekaEureka 作为服务注册中心，主要负责微服务集群的服务注册列表管理的工作。在 SpringCloud 微服务集群中，所有微服务应用启动时都会在注册中心注册自己的IP、端口号、接口URI等服务信息，供微服务应用之间相互调用。每隔一段时间 Eureka 会检测注册列表中的服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringCloud 学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/06/21/SpringCloud 学习笔记/index.html">
+<meta property="og:site_name" content="Where is my code?">
+<meta property="og:description" content="本教程代码：https://github.com/C0deFxxker/springcloud-demo 1. EurekaEureka 作为服务注册中心，主要负责微服务集群的服务注册列表管理的工作。在 SpringCloud 微服务集群中，所有微服务应用启动时都会在注册中心注册自己的IP、端口号、接口URI等服务信息，供微服务应用之间相互调用。每隔一段时间 Eureka 会检测注册列表中的服务器">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/eureka-1.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/eureka-2.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/eureka-3.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/ribbon-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/ribbon-2.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-2.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-3.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-4.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-5.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-7.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/hystrix-6.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/admin-1.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/admin-2.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/admin-3.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/admin-4.png">
+<meta property="og:updated_time" content="2018-07-02T15:08:38.036Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringCloud 学习笔记">
+<meta name="twitter:description" content="本教程代码：https://github.com/C0deFxxker/springcloud-demo 1. EurekaEureka 作为服务注册中心，主要负责微服务集群的服务注册列表管理的工作。在 SpringCloud 微服务集群中，所有微服务应用启动时都会在注册中心注册自己的IP、端口号、接口URI等服务信息，供微服务应用之间相互调用。每隔一段时间 Eureka 会检测注册列表中的服务器">
+<meta name="twitter:image" content="http://yoursite.com/2018/06/21/SpringCloud%20学习笔记/eureka-1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/blog/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/21/SpringCloud 学习笔记/"/>
+
+
+
+
+
+  <title>SpringCloud 学习笔记 | Where is my code?</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/blog/css/prism.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/blog/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Where is my code?</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/blog/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/blog/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/blog/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/blog/2018/06/21/SpringCloud 学习笔记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="黎毅麟">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/blog/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Where is my code?">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringCloud 学习笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-21T00:00:00+08:00">
+                2018-06-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/blog/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本教程代码：<a href="https://github.com/C0deFxxker/springcloud-demo" target="_blank" rel="noopener">https://github.com/C0deFxxker/springcloud-demo</a></p>
+<h1 id="1-Eureka"><a href="#1-Eureka" class="headerlink" title="1. Eureka"></a>1. Eureka</h1><p>Eureka 作为服务注册中心，主要负责微服务集群的服务注册列表管理的工作。在 SpringCloud 微服务集群中，所有微服务应用启动时都会在注册中心注册自己的IP、端口号、接口URI等服务信息，供微服务应用之间相互调用。每隔一段时间 Eureka 会检测注册列表中的服务器是否处于运行状态。</p>
+<a id="more"></a>
+<h2 id="1-1-概念"><a href="#1-1-概念" class="headerlink" title="1.1 概念"></a>1.1 概念</h2><h3 id="1-1-1-服务注册"><a href="#1-1-1-服务注册" class="headerlink" title="1.1.1 服务注册"></a>1.1.1 服务注册</h3><p>当 Eureka Client 向 Eureka 注册时，Eureka Client 提供自身的元数据，比如 IP 地址、端口、运行状况指标的 URI、主页地址等信息。</p>
+<h3 id="1-1-2-服务续约"><a href="#1-1-2-服务续约" class="headerlink" title="1.1.2 服务续约"></a>1.1.2 服务续约</h3><p>Eureka Client 在默认的情况下会每隔30秒发送一次心跳来进行服务续约。通过服务续约来告知 Eureka Server 该 Eureka Client 仍然可用，没有出现故障。正常情况下，如果 Eureka Server 在 90 秒内没有收到 Eureka Client 的心跳，Eureka Server 会将 Eureka Client 实例从注册列表中删除。注意：官方建议不要更改服务续约的间隔时间。</p>
+<h3 id="1-1-3-获取服务注册列表信息"><a href="#1-1-3-获取服务注册列表信息" class="headerlink" title="1.1.3 获取服务注册列表信息"></a>1.1.3 获取服务注册列表信息</h3><p>Eureka Client 从 Eureka Server 获取服务注册表信息，并将其缓存在本地。Eureka Client 会使用服务注册列表信息查找其他服务的信息，从而进行远程调用。该注册列表信息定时(每30秒)更新一次，每次返回注册列表信息可能与 Eureka Client 的缓存信息不同，Eureka Client 会自己处理这些信息。如果由于某种原因不能及时匹配，Eureka Client 会重新获取整个注册表信息。</p>
+<h3 id="1-1-4-服务下线"><a href="#1-1-4-服务下线" class="headerlink" title="1.1.4 服务下线"></a>1.1.4 服务下线</h3><p>Eureka Client 在程序关闭时可以向 Eureka Server 发送下线请求。发送请求后，该客户端实力信息将从 Eureka Server 的服务注册列表中删除。</p>
+<h3 id="1-1-5-服务剔除"><a href="#1-1-5-服务剔除" class="headerlink" title="1.1.5 服务剔除"></a>1.1.5 服务剔除</h3><p>在默认情况下，当 Eureka Client 连续90秒没有向 Eureka Server 发送服务续约时，Eureka Server 会将该服务实力从服务注册列表删除。</p>
+<h2 id="1-2-高可用架构"><a href="#1-2-高可用架构" class="headerlink" title="1.2 高可用架构"></a>1.2 高可用架构</h2><p>注册中心在集群中起着至关重要的作用，它存储了整个微服务集群的服务信息，若注册中心在上线期间挂掉，所有服务信息将无穷知晓，将会导致整个微服务集群瘫痪。而注册中心的效率也会影响到整个集群的整体效率，微服务集群中每个应用都需要定时续约以及向注册中心获取最新的服务注册列表，当应用数量不断增加的时候，注册中心的负载也会随之提高，若因负载过高导致注册中心响应变慢，将会导致整个微服务集群效率整体下降。</p>
+<p>为了解决上述问题，我们必须在生产环境中为注册中心搭建高可用架构，下图为注册中心的高可用架构模型：</p>
+<p><img src="eureka-1.jpg" alt="Eureka高可用架构图"></p>
+<p>实现注册中心高可用，就必须为注册中心搭建集群，Eureka Server 集群能够相互备份服务信息，若其中某个节点挂掉了，应用可以调用其它还在运行的 Eureka Server。并且每个 Eureka Server 节点都能同时提供服务，从而提高注册中心的整体处理能力。</p>
+<h2 id="1-3-代码实现"><a href="#1-3-代码实现" class="headerlink" title="1.3 代码实现"></a>1.3 代码实现</h2><p>首先，需要在项目中引入 SpringBoot 和 SpringCloud 的基础依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">springboot.version</span>&gt;</span>1.5.9.RELEASE<span class="tag">&lt;/<span class="name">springboot.version</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">springcloud.version</span>&gt;</span>Dalston.SR5<span class="tag">&lt;/<span class="name">springcloud.version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencyManagement</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springboot.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-dependencies<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">version</span>&gt;</span>$&#123;springcloud.version&#125;<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">type</span>&gt;</span>pom<span class="tag">&lt;/<span class="name">type</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">scope</span>&gt;</span>import<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencyManagement</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>然后再添加 Eureka Server 模块：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 application.yml 中添加相关配置：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">discovery-cluster</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">discovery1</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line">      <span class="comment"># 服务器主机名</span></span><br><span class="line"><span class="attr">      hostname:</span> <span class="string">peer1</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line">    <span class="comment"># 高可用架构，向其它 Eureka Server 节点注册，形成集群</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://peer2:8762/eureka</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8761</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  profiles:</span> <span class="string">discovery2</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  instance:</span></span><br><span class="line"><span class="attr">    hostname:</span> <span class="string">peer2</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://peer1:8761/eureka</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8762</span></span><br></pre></td></tr></table></figure></p>
+<p>启动方式与 SpringBoot 应用程序差不多，这里需要添加 <strong>@EnableEurekaServer</strong> 注解:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;</span><br><span class="line"></span><br><span class="line"><span class="meta">@EnableEurekaServer</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EurekaServerApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(EurekaServerApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>打包成 jar 并分别在两台服务器上启动：</p>
+<p>peer1 服务器(对应profile为discovery1的配置):<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar eureka-server.jar --spring.profiles.active=discovery1</span><br></pre></td></tr></table></figure></p>
+<p>peer2 服务器(对应profile为discovery2的配置):<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar eureka-server.jar --spring.profiles.active=discovery2</span><br></pre></td></tr></table></figure></p>
+<p>用浏览器访问其中一个 Eureka Server 节点，查看到如下注册列表信息：</p>
+<p><img src="eureka-2.png" alt="EurekaServer"></p>
+<p><img src="eureka-3.png" alt="EurekaServer"></p>
+<h1 id="2-Ribbon"><a href="#2-Ribbon" class="headerlink" title="2. Ribbon"></a>2. Ribbon</h1><p>本节主要讲解如何使用在 SpringCloud 微服务集群中使用使用负载均衡技术，从而能对每个单独的服务搭建高可用。</p>
+<h2 id="2-1-简介"><a href="#2-1-简介" class="headerlink" title="2.1 简介"></a>2.1 简介</h2><p>在 SpringCloud 中，所有微服务接口都是以 Restful API 形式暴露出去，例如：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HiServiceController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hi "</span> + name + <span class="string">", i am from port: "</span> + port;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>而每个服务都会以集群形式构建高可用，这就会用到负载均衡技术平摊每个节点的负载。</p>
+<p><img src="ribbon-1.png" alt="微服务集群"></p>
+<p>目前行业上负载均衡的方式主要分为两种：</p>
+<ol>
+<li>独立进程单元，通过负载均衡策略，将请求转发到不同的执行单元上，例如：Nginx。</li>
+<li>将负载均衡逻辑以代码的形式封装到服务消费者的客户端上，这样就需要服务消费者客户端维护了一份服务提供者的信息列表。</li>
+</ol>
+<p>Ribbon 是 Netflix 公司开源的一个负载均衡的组件，属于上述第二种方式。目前 Netflix 公司用于生产环境的 Ribbon 子模块有：</p>
+<ul>
+<li>ribbon-loadbalancer: 可以独立使用或与其他模块一起使用的负载均衡 API。</li>
+<li>ribbon-eureka: Ribbon 结合 Eureka 客户端的 API，为负载均衡提供动态服务注册列表信息。</li>
+<li>ribbon-core: Ribbon 的核心 API。</li>
+</ul>
+<p>SpringCloud 中主要使用的是 ribbon-eureka 模块。</p>
+<h2 id="2-2-RestTemplate-Ribbon-实现负载均衡"><a href="#2-2-RestTemplate-Ribbon-实现负载均衡" class="headerlink" title="2.2 RestTemplate + Ribbon 实现负载均衡"></a>2.2 RestTemplate + Ribbon 实现负载均衡</h2><p>先在工程中加入 Ribbon 与 Eureka 的依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-ribbon<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 application.yml 中，添加工程相关配置：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://peer1:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8002</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">ribbon-client</span></span><br></pre></td></tr></table></figure></p>
+<p>另外，作为 Eureka Client 需要在程序的入口类上加上注解 @EnableEurekaClient 开启 Eureka Client 功能：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClientApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(RibbonClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>笔者过去见过的需要工程代码中，往往工具库里面都有一个 HttpUtils 类，它的功能相信每个 Java 开发工程师都非常熟悉，就是用来封装各种 Http 协议调用的工具类，而 SpringWeb 3.0 版本开始就有 org.springframework.web.client.RestTemplate 这个类，它的功能与我们熟悉的 HttpUtils 没太大区别。而 SpringCloud 对其与 Ribbon 进行了结合，使其可以在微服务架构中实现客户端的负载均衡调度机制，具体用法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="meta">@LoadBalanced</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> RestTemplate <span class="title">restTemplate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> RestTemplate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>加入 @LoadBalanced 注解后，RestTemplate 将会对请求 URL 的 hostname 部分进行解析，根据 Eureka Server 拉取的服务注册列表以及负载均衡策略，自动转化成对应的服务节点主机名：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/ribbon/client"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClientController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hi</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://hi-service/hi?name="</span> + name, String.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>其中，示例中的 “hi-service” 就是服务名，根据负载均衡策略将会分别请求到 192.168.8.101 的 8000 端口 或 8001 端口：</p>
+<p><img src="ribbon-2.png" alt="Eureka服务注册列表"></p>
+<p>接下来我们启动这个应用，打开浏览器多次访问 <a href="http://localhost:8003/ribbon/client/hi?name=liyilin" target="_blank" rel="noopener">http://localhost:8003/ribbon/client/hi?name=liyilin</a> 的 API 接口，看看负载均衡的效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hi liyilin, i am from port: 8000</span><br><span class="line">hi liyilin, i am from port: 8001</span><br></pre></td></tr></table></figure>
+<p>可以看到多次调用 hi() 方法，会负载均衡到 hi-service 服务集群的两个服务实例上。</p>
+<h2 id="2-3-声明时调用-Feign"><a href="#2-3-声明时调用-Feign" class="headerlink" title="2.3 声明时调用 Feign"></a>2.3 声明时调用 Feign</h2><p>上一节介绍完 RestTemplate + Ribbon 消费服务，但是调用时，都需要开发者传入 URL 作为参数。本节介绍采用声明式 API 接口的风格，将 Java Http 客户端绑定到它的内部，使调用变得更简单。</p>
+<p>新建一个工程，引入 Feign 相关的 Maven 依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-feign<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>添加 application.yml 配置：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    service-url:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://peer1:8761/eureka/</span></span><br><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8003</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">feign-client</span></span><br></pre></td></tr></table></figure>
+<p>在程序主启动类上添加 @EnableFeignClients 注解，开启 Feign 功能：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignClientApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(FeignClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>现在我们用 Feign 对 hi-service 服务的 “/hi” API接口进行调用，创建的接口代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@FeignClient</span>(value = <span class="string">"hi-service"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">FeignService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@GetMapping</span>(value = <span class="string">"/hi"</span>)</span><br><span class="line">    <span class="function">String <span class="title">sayHi</span><span class="params">(@RequestParam(<span class="string">"name"</span>)</span> String name)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>@FeignClient 注解的 value 属性指定一个服务名，Ribbon + RestTemplate 调用 “<a href="http://hi-service/" target="_blank" rel="noopener">http://hi-service/</a>“ 路径效果一样。</p>
+<p>然后在代码中直接调用该接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/feign"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FeignController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> FeignService feignService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">sayHi</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> feignService.sayHi(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动应用，用浏览器多次调用 “<a href="http://localhost:8004/feign/hi?name=liyilin" target="_blank" rel="noopener">http://localhost:8004/feign/hi?name=liyilin</a>“ 路径，观察运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hi liyilin, i am from port: 8000</span><br><span class="line">hi liyilin, i am from port: 8001</span><br></pre></td></tr></table></figure>
+<p>与直接使用 RestTemplate + Ribbon 的效果一样，并且采用了<strong>声明式调用</strong>方式，代码上更加优雅。</p>
+<h1 id="3-Hystrix"><a href="#3-Hystrix" class="headerlink" title="3. Hystrix"></a>3. Hystrix</h1><p>Hystrix 是 Netflix 公司开源的一个项目，它提供了熔断器功能，能够阻止分布式系统中出现联动故障。笔者已经在<a href="/blog/2018/06/17/微服务架构简介/#more">《微服务简介》</a>中对熔断机制的原理做了介绍，这里主要讲述 Spring Cloud 集合 Hystrix 实现熔断机制的实现方式。</p>
+<p>Hystrix 提供了以下功能：</p>
+<ol>
+<li>使用熔断机制，防止雪崩效应。</li>
+<li>如果某个服务出现了故障，则调用该服务的请求快速失败，而不是线程等待。</li>
+<li>提供 fallback 方案，供开发者自定义快速失败的处理机制。</li>
+<li>提供熔断器的监控 (Hystrix Dashboard)。</li>
+</ol>
+<h2 id="3-1-Hystrix-工作机制"><a href="#3-1-Hystrix-工作机制" class="headerlink" title="3.1 Hystrix 工作机制"></a>3.1 Hystrix 工作机制</h2><ol>
+<li>当服务的某个 API 接口的失败次数在一定时间内小于设定的阈值时，熔断器处于关闭状态，该 API 接口正常提供服务。</li>
+<li>当该 API 接口处理请求的失败次数大于设定的阈值时，Hystrix 判定该 API 接口出现了故障，打开熔断器，再请求该 API 接口时，直接执行快速失败的逻辑，而不会再通过网络连接调用该 API 接口。</li>
+<li>处于打开状态的熔断器，一段时间后会处于半打开状态，并将一定数量的请求执行正常逻辑，剩余的请求会执行快速失败，若执行正常逻辑的请求失败了，则熔断器继续打开；若成功了，则将熔断器关闭。</li>
+</ol>
+<h2 id="3-2-在-RestTemplate-和-Ribbon-上使用熔断器"><a href="#3-2-在-RestTemplate-和-Ribbon-上使用熔断器" class="headerlink" title="3.2 在 RestTemplate 和 Ribbon 上使用熔断器"></a>3.2 在 RestTemplate 和 Ribbon 上使用熔断器</h2><p>前面说到 Ribbon + RestTemplate 做负载均衡，本节介绍在这个基础上加上 Hystrix 熔断器。</p>
+<p>先在 pom.xml 文件中加入 Hystrix 的依赖:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 SpringBoot 启动类上添加 @EnableHystrix 注解，开启 Hystrix 功能，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@EnableHystrix</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClientApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(RibbonClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在使用 RestTemplate 的方法上加上 @HystrixCommand 注解：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/ribbon/client"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClientController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hi"</span>)</span><br><span class="line">    <span class="meta">@HystrixCommand</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">hi</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> restTemplate.getForObject(<span class="string">"http://hi-service/hi?name="</span> + name, String.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用回上节 RestTemplate+Ribbon 的例子，把 “hi-service” 服务提供方的接口上加上一个延时操作，模拟线程阻塞：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonController</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Value</span>(<span class="string">"$&#123;server.port&#125;"</span>)</span><br><span class="line">    <span class="keyword">private</span> String port;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hi"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">home</span><span class="params">(@RequestParam String name)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 模拟线程阻塞</span></span><br><span class="line">        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"hi "</span> + name + <span class="string">", i am from port: "</span> + port;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>接下来打开浏览器，尝试多次调用 “<a href="http://localhost:8003/ribbon/client/hi?name=liyilin" target="_blank" rel="noopener">http://localhost:8003/ribbon/client/hi?name=liyilin</a>“ ，一开始看到服务调用超时的提示：</p>
+<p><img src="hystrix-1.png" alt="服务调用超时"></p>
+<p>重复多次调用该接口后，错误变成了：</p>
+<p><img src="hystrix-2.png" alt="开启了熔断效果"></p>
+<p>这是默认熔断器开启的返回结果，过一段时间后，尝试重新调用 “<a href="http://localhost:8003/ribbon/client/hi?name=liyilin" target="_blank" rel="noopener">http://localhost:8003/ribbon/client/hi?name=liyilin</a>“ 地址，发现显示超时错误，证明这个时候熔断器处于半开启状态，又开始发送请求到服务提供方上，若重复此操作，最终又会看到开启熔断机制的效果。</p>
+<h2 id="3-3-Feign-的熔断机制"><a href="#3-3-Feign-的熔断机制" class="headerlink" title="3.3 Feign 的熔断机制"></a>3.3 Feign 的熔断机制</h2><p>其实，Feign 的设计中已经引入了 Hystrix，在 Feign 中已经天然支持 Hystrix，只需要在 application.yml 加上以下配置即可：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">feign:</span></span><br><span class="line"><span class="attr">  hystrix:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="3-4-Hystrix-DashBoard"><a href="#3-4-Hystrix-DashBoard" class="headerlink" title="3.4 Hystrix DashBoard"></a>3.4 Hystrix DashBoard</h2><p>到目前为止，已经说明了 SpringCloud 中如何引入熔断机制。当服务出现故障的时候，这个熔断机制是自动启动的，熔断机制确实保护了集群免受”雪崩效应“的影响，但问题是故障的服务是需要人工排除故障后才能让系统恢复正常使用。这时我们就需要有对集群熔断状态的实时监控，一旦某个地方的熔断机制开启，开发人员可以根据监控状况，立刻跑去排查服务故障。接下来我们将讲解如何使用 Hystrix DashBoard 监控集群的熔断状况。</p>
+<p>首先，需要为微服务集群中所有服务消费方都加上 spring-boot-starter-actuator 与 spring-cloud-hystrix-dashboard 依赖（无论是 RestTemplate + Ribbon 还是 FeignClient 的工程项目）：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>默认情况下，spring-boot-starter-actuator 的监控是需要配合 spring-security 做认证登录才能查看服务的监控信息，这里为了演示方便可以在 application.yml 中添加以下配置，暂时撤销认证：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<p>然后为 SpringBoot 启动类加上 @EnableHystrixDashboard 和 @EnableHystrix 注解（这里用FeignClient工程做例子，RestTemplate + Ribbon 工程同理）：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@EnableFeignClients</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableHystrixDashboard</span></span><br><span class="line"><span class="meta">@EnableHystrix</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RibbonClientApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(RibbonClientApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>启动工程，在浏览器上访问 <a href="http://localhost:8003/hystrix" target="_blank" rel="noopener">http://localhost:8003/hystrix</a> (本工程在本地启动8003端口提供服务)，得到如下界面:</p>
+<p><img src="hystrix-3.png" alt="Hystrix Dashboard 界面"></p>
+<p>在中间提示输入 URL 的文本框中输入 “<a href="http://localhost:8003/hystrix.stream&quot;，然后点击" target="_blank" rel="noopener">http://localhost:8003/hystrix.stream&quot;，然后点击</a> “Monitor Stream” 按钮。</p>
+<p>如果出现如下界面，说明该服务消费方的尚未调用过服务提供方的接口：</p>
+<p><img src="hystrix-4.png" alt="还没有接受请求的监控状况"></p>
+<p>尝试多次浏览 “<a href="http://localhost:8003/ribbon/client/hi?name=abc" target="_blank" rel="noopener">http://localhost:8003/ribbon/client/hi?name=abc</a>“ 后，回去看监控界面，发现界面有信息了：</p>
+<p><img src="hystrix-5.png" alt="正常情况"></p>
+<p>上面给出了部分指标解析，更多信息查看官网文档：<a href="https://github.com/Netflix/Hystrix/wiki/Operations" target="_blank" rel="noopener">https://github.com/Netflix/Hystrix/wiki/Operations</a></p>
+<h2 id="3-5-Turbine-聚合监控"><a href="#3-5-Turbine-聚合监控" class="headerlink" title="3.5 Turbine 聚合监控"></a>3.5 Turbine 聚合监控</h2><p>在使用 Hystrix Dashboard 组件监控服务的熔断器状况时，每个服务都有一个 Hystrix Dashboard 主页，当服务数量很多是，监控非常不方便。为了同时监控多个服务的熔断器的状况，Netflix 开源了 Hystrix 的另一个组件 Turbine。</p>
+<p>为了体现多个服务的监控，笔者这里把 Ribbon+RestTemplate 与 FeignClient 的例子工程都一并开启，并且每个服务各开两个进程模拟4个节点的集群服务(Ribbon+RestTemplate 端口号: 8002, 8003, FeignClient 端口号: 8004, 8005)。</p>
+<p><img src="hystrix-7.png" alt="集群部署状况"></p>
+<p>我们在上一节的基础上，再新建一个监控工程 springcloud-monitor-client。首先，在 pom.xml 中引入必要的依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-turbine<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-hystrix-dashboard<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 SpringBoot 启动类加上 @EnableTurbine 注解，开启 Turbine 功能：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableTurbine</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TurbineApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(TurbineApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 application.yml 中加上必要的监控配置，然后启动应用：<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8769</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">service-turbine</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="attr">turbine:</span></span><br><span class="line">  <span class="comment"># 表示集群的名字为default</span></span><br><span class="line"><span class="attr">  cluster-name-expression:</span> <span class="string">"'default'"</span></span><br><span class="line">  <span class="comment"># 指定了要监控的应用名字(服务消费者)</span></span><br><span class="line"><span class="attr">  app-config:</span> <span class="string">eureka-feign-client</span></span><br><span class="line">  <span class="comment"># 表示同一主机上的服务通过host和port的组合来进行区分，默认情况下是使用host来区分，这样会使本地调试有问题</span></span><br><span class="line"><span class="attr">  combine-host-port:</span> <span class="literal">true</span></span><br><span class="line"><span class="comment"># 关闭安全认证</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>为了让监控面板有数据，在进入监控页面之前，先调用多次服务消费者的接口，再通过浏览器进入 “<a href="http://localhost:8769/hystrix/" target="_blank" rel="noopener">http://localhost:8769/hystrix/</a>“ Hystrix DashBoard 界面，在页面中间的URL输入框中输入: “<a href="http://localhost:8769/turbine.stream&quot;，点击" target="_blank" rel="noopener">http://localhost:8769/turbine.stream&quot;，点击</a> “Monitor Stream” 按钮。</p>
+<p><img src="hystrix-6.png" alt="Turbine DashBoard"></p>
+<p>从图中可以看到，一次过收集了4台机（2台 RestTemplate+Ribbon, 2台 FeignClient）的熔断机制监控信息。</p>
+<!--
+# 4. Sleuth
+在微服务架构中，系统是由各个服务单元相互协调组成的，通常会有业务处理流程需要有序的调用多个服务接口，而这些服务接口的实现中又可能会调用其它服务提供方的接口，调用链路错综复杂，当业务流程出现故障时，想要排查到底是哪一个服务单元的接口出问题就显得非常困难。
+
+我们必须实现__分布式链路追踪__去跟进一个业务请求到底有哪些服务单元参与，以及了解参与的顺序，从而达到每个请求的步骤清晰可见，当出现故障时就可以快速定位错误。
+-->
+<h1 id="4-Admin"><a href="#4-Admin" class="headerlink" title="4. Admin"></a>4. Admin</h1><p>在任何一个分布式系统中，一般都有一个监控系统监控整个集群的实时健康状况，Spring Boot Admin 就是负责这个功能的一个工具。</p>
+<h2 id="4-1-应用监控"><a href="#4-1-应用监控" class="headerlink" title="4.1 应用监控"></a>4.1 应用监控</h2><p>回看上一节的示例，有很多工程都加入了 spring-boot-starter-actuator 依赖，这个依赖显示了当前应用程序的健康状况等监控信息。</p>
+<p>在 pom.xml 中加入以下依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>为了方便演示，先在 application.yml 中加入如下配置，关闭监控接口的鉴权:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>然后启动应用后，查看到以下日志：</p>
+<p><img src="admin-1.png" alt="加了监控后的启动日志"></p>
+<p>观察到应用开放多了一些额外的接口URI，都是一些监控应用相关信息的接口，下面给出这些接口的说明:</p>
+<table>
+    <thead>
+        <th width="10%">方法</th>
+        <th width="20%">路径</th>
+        <th width="*">功能</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td>GET</td>
+            <td>/actuator</td>
+            <td>查看所有EndPoint的列表，需要加入 Spring HATEOAS 支持</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/autoconfig</td>
+            <td>查看应用的自动配置的使用情况</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/beans</td>
+            <td>查看应用的所有Bean的信息</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/configprops</td>
+            <td>查看应用的所有配置属性</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/dump</td>
+            <td>查看应用的线程状态信息</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/env</td>
+            <td>查看应用的所有环境信息</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/flyway</td>
+            <td>查看已经有迁徙路线数据库迁移</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/health</td>
+            <td>查看应用健康指标</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/info</td>
+            <td>查看应用信息</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/liquibase</td>
+            <td>查看已经有liquibase数据库迁移应用</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/mappings</td>
+            <td>查看所有url映射</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/metrics</td>
+            <td>查看应用基本指标</td>
+        </tr>
+        <tr>
+            <td>POST</td>
+            <td>/shutdown</td>
+            <td>允许优雅关闭当前应用（默认情况下不启用）</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/trace</td>
+            <td>查看基本的HTTP跟踪信息</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/docs</td>
+            <td>查看文档，需要依赖 spring-boot-actuator-docs</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/heapdump</td>
+            <td>返回一个gzip压缩 hprof 堆转储文件</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/jolokia</td>
+            <td>暴露JMX bean（当jolokia路径）</td>
+        </tr>
+        <tr>
+            <td>GET</td>
+            <td>/logfile</td>
+            <td>查看日志文件的内容（如果logging.file或logging.path属性已设置）。支持使用对HTTP范围标头到日志文件的部分恢复内容。</td>
+        </tr>
+    </tbody>
+</table>
+
+<p>以上一节示例的其中一个服务为例，用浏览器调用 “<a href="http://localhost:8003/health" target="_blank" rel="noopener">http://localhost:8003/health</a>“ 路径得到如下结果（经笔者进行过缩进处理）：<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"Spring Cloud Eureka Discovery Client"</span>,</span><br><span class="line">    <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">    <span class="attr">"discoveryComposite"</span>: &#123;</span><br><span class="line">        <span class="attr">"description"</span>: <span class="string">"Spring Cloud Eureka Discovery Client"</span>,</span><br><span class="line">        <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">        <span class="attr">"discoveryClient"</span>: &#123;</span><br><span class="line">            <span class="attr">"description"</span>: <span class="string">"Spring Cloud Eureka Discovery Client"</span>,</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">            <span class="attr">"services"</span>: [</span><br><span class="line">                <span class="string">"hi-service"</span>,</span><br><span class="line">                <span class="string">"service-turbine"</span>,</span><br><span class="line">                <span class="string">"feign-client"</span>,</span><br><span class="line">                <span class="string">"ribbon-client"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"eureka"</span>: &#123;</span><br><span class="line">            <span class="attr">"description"</span>: <span class="string">"Remote status from Eureka server"</span>,</span><br><span class="line">            <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">            <span class="attr">"applications"</span>: &#123;</span><br><span class="line">                <span class="attr">"HI-SERVICE"</span>: <span class="number">2</span>,</span><br><span class="line">                <span class="attr">"SERVICE-TURBINE"</span>: <span class="number">1</span>,</span><br><span class="line">                <span class="attr">"FEIGN-CLIENT"</span>: <span class="number">2</span>,</span><br><span class="line">                <span class="attr">"RIBBON-CLIENT"</span>: <span class="number">2</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"diskSpace"</span>: &#123;</span><br><span class="line">        <span class="attr">"status"</span>: <span class="string">"UP"</span>,</span><br><span class="line">        <span class="attr">"total"</span>: <span class="number">250790436864</span>,</span><br><span class="line">        <span class="attr">"free"</span>: <span class="number">114288177152</span>,</span><br><span class="line">        <span class="attr">"threshold"</span>: <span class="number">10485760</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"refreshScope"</span>: &#123;</span><br><span class="line">        <span class="attr">"status"</span>: <span class="string">"UP"</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"hystrix"</span>: &#123;</span><br><span class="line">        <span class="attr">"status"</span>: <span class="string">"UP"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>查看到这个应用连接了 Eureka，也开启了 Hystrix，甚至还能看到服务所在机器的硬盘空间情况。其中，”status”: “UP” 表示服务处于启动状态。</p>
+<h2 id="4-2-聚合监控"><a href="#4-2-聚合监控" class="headerlink" title="4.2 聚合监控"></a>4.2 聚合监控</h2><p>Spring Boot Admin 就是负责收集各个应用的这些监控信息，从而起到聚合监控作用。所以使用 Spring Boot Admin 的前提是所有被监控的应用都必须引入 spring-boot-starter-actuator 依赖。</p>
+<p>新建工程名为 “admin-service”，作为 Spring Boot Admin 的服务工程。在 pom.xml 中加入相关依赖：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.cloud<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-cloud-starter-eureka<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-admin-server<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>de.codecentric<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-admin-server-ui<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.4<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-actuator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jolokia<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jolokia-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 application.yml 配置文件中加入监控配置（这里把服务名更名为 “admin-service”）:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">server:</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">8768</span></span><br><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="attr">  application:</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">admin-service</span></span><br><span class="line"><span class="attr">  boot:</span></span><br><span class="line"><span class="attr">    admin:</span></span><br><span class="line"><span class="attr">      routes:</span></span><br><span class="line">        <span class="comment"># 指定从终端获取的信息接口</span></span><br><span class="line"><span class="attr">        endpoints:</span> <span class="string">env,</span> <span class="string">metrics,</span> <span class="string">trace,</span> <span class="string">dump,</span> <span class="string">jolokia,</span> <span class="string">info,</span> <span class="string">logfile,</span> <span class="string">refresh,</span> <span class="string">flyway,</span> <span class="string">liquibase,</span> <span class="string">heapdump,</span> <span class="string">loggers,</span> <span class="string">auditevents,</span> <span class="string">hystrix.stream</span></span><br><span class="line"><span class="attr">eureka:</span></span><br><span class="line"><span class="attr">  client:</span></span><br><span class="line"><span class="attr">    serviceUrl:</span></span><br><span class="line"><span class="attr">      defaultZone:</span> <span class="attr">http://localhost:8761/eureka/</span></span><br><span class="line"><span class="comment"># 关闭安全认证</span></span><br><span class="line"><span class="attr">management:</span></span><br><span class="line"><span class="attr">  security:</span></span><br><span class="line"><span class="attr">    enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></p>
+<p>添加 logback.xml 配置文件，在配置文件中加入 JMXConfigurator，实得可以在监控中心修改该应用的日志级别：<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">include</span> <span class="attr">resource</span>=<span class="string">"org/springframework/boot/logging/logback/base.xml"</span>/&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 支持 JMX 修改日志配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">jmxConfigurator</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在 SpringBoot 启动类中加上 @EnableAdminServer 注解:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@EnableEurekaClient</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@EnableAdminServer</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AdminApplication</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        SpringApplication.run(AdminApplication.class, args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动应用，用浏览器调用 “<a href="http://localhost:8768/" target="_blank" rel="noopener">http://localhost:8768/</a>“ ，得到如下结果：</p>
+<p><img src="admin-2.png" alt="admin界面"></p>
+<p>点击其中一台机的 “Detail” 按钮查看详细配置信息：</p>
+<p><img src="admin-3.png" alt="监控详细"></p>
+<p>通过上面的标签页可以切换不同的页面查看不同的监控信息，包括GC信息、环境变量、日志级别修改、线程信息、请求记录、堆快照等。读者想要了解更详细可以亲自实践。</p>
+<p>其中进入 “Trace” 标签页，如果观察到有记录显示：”404 - HEAD /jolokia”，如下图：</p>
+<p><img src="admin-4.png" alt="jolokia-404"></p>
+<p>说明被监控的服务没有加入 jolokia-core 依赖，可以在每个服务的 pom.xml 中都加入这个依赖即可。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.jolokia<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jolokia-core<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2018/06/17/微服务架构简介/" rel="next" title="微服务架构简介">
+                <i class="fa fa-chevron-left"></i> 微服务架构简介
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">黎毅麟</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/blog/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/blog/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Eureka"><span class="nav-text">1. Eureka</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-概念"><span class="nav-text">1.1 概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-1-服务注册"><span class="nav-text">1.1.1 服务注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-2-服务续约"><span class="nav-text">1.1.2 服务续约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-3-获取服务注册列表信息"><span class="nav-text">1.1.3 获取服务注册列表信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-4-服务下线"><span class="nav-text">1.1.4 服务下线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-5-服务剔除"><span class="nav-text">1.1.5 服务剔除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-高可用架构"><span class="nav-text">1.2 高可用架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-代码实现"><span class="nav-text">1.3 代码实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Ribbon"><span class="nav-text">2. Ribbon</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-简介"><span class="nav-text">2.1 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-RestTemplate-Ribbon-实现负载均衡"><span class="nav-text">2.2 RestTemplate + Ribbon 实现负载均衡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-声明时调用-Feign"><span class="nav-text">2.3 声明时调用 Feign</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Hystrix"><span class="nav-text">3. Hystrix</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-Hystrix-工作机制"><span class="nav-text">3.1 Hystrix 工作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-在-RestTemplate-和-Ribbon-上使用熔断器"><span class="nav-text">3.2 在 RestTemplate 和 Ribbon 上使用熔断器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-Feign-的熔断机制"><span class="nav-text">3.3 Feign 的熔断机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Hystrix-DashBoard"><span class="nav-text">3.4 Hystrix DashBoard</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-Turbine-聚合监控"><span class="nav-text">3.5 Turbine 聚合监控</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Admin"><span class="nav-text">4. Admin</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-应用监控"><span class="nav-text">4.1 应用监控</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-聚合监控"><span class="nav-text">4.2 聚合监控</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">黎毅麟</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/blog/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/blog/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/blog/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/blog/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/blog/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
